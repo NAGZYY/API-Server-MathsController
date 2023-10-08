@@ -14,7 +14,7 @@ export const API_EndPoint = async function (HttpContext) {
                 let controller = new Controller(HttpContext);
                 switch (HttpContext.req.method) {
                     case 'GET':
-                        controller.get();
+                        controller.get(HttpContext.path.id);
                         return true
                     case 'POST':
                         if (HttpContext.payload)
