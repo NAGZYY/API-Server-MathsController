@@ -14,15 +14,8 @@ export const API_EndPoint = async function (HttpContext) {
                 let controller = new Controller(HttpContext);
                 switch (HttpContext.req.method) {
                     case 'GET':
-                        if (HttpContext.path.controllerName === 'maths') {
-                            // Utiliser MathsController au lieu de Controller
-                            const controller = new MathsController(HttpContext);
-                            controller.get();
-                            return true;
-                        } else {
-                            controller.get(HttpContext.path.id);
-                            return true
-                        }
+                        controller.get();
+                        return true
                     case 'POST':
                         if (HttpContext.payload)
                             controller.post(HttpContext.payload);
