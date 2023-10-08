@@ -1,6 +1,6 @@
 import Model from './model.js';
 
-export default class Contact extends Model {
+export default class Math extends Model {
     constructor() {
         super();
 
