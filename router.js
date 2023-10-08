@@ -1,4 +1,4 @@
-//import { API_EndPoint } from './router.js';
+
 export const API_EndPoint = async function (HttpContext) {
     if (!HttpContext.path.isAPI) {
         return false;
@@ -14,8 +14,12 @@ export const API_EndPoint = async function (HttpContext) {
                 let controller = new Controller(HttpContext);
                 switch (HttpContext.req.method) {
                     case 'GET':
-                        controller.get(HttpContext.path.id);
-                        return true;
+                        if (HttpContext.path.controllerName === 'maths') {
+                            // Utiliser MathsController au lieu de Controller
+                            const controller = new MathsController(HttpContext);
+                            controller.get();
+                            return true;
+                        }
                     case 'POST':
                         if (HttpContext.payload)
                             controller.post(HttpContext.payload);
