@@ -5,51 +5,55 @@ class MathsController extends Controller {
     super(HttpContext, repository);
   }
 
-  add(x, y) {
-    return x + y;
-  }
-
-  subtract(x, y) {
-    return x - y;
-  }
-
-  multiply(x, y) {
-    return x * y;
-  }
-
-  divide(x, y) {
-    if (y === 0) {
-      throw new Error("Division par zéro n'est pas autorisé.");
+  processMathOperation(op, x, y) {
+    switch (op) {
+      case '+':
+        return x + y;
+      case '-':
+        return x - y;
+      case '*':
+        return x * y;
+      case '/':
+        if (y === 0) {
+          throw new Error("Division par zéro n'est pas autorisée.");
+        }
+        return x / y;
+      case '%':
+        return x % y;
+      default:
+        throw new Error(`Opération non prise en charge : '${op}'`);
     }
-    return x / y;
   }
 
-  modulo(x, y) {
-    return x % y;
-  }
+  performMathOperation() {
+    const { op, x, y } = this.HttpContext.path.params;
 
-  factorial(n) {
-    if (n === 0) return 1;
-    return n * this.factorial(n - 1);
-  }
-
-  isPrime(n) {
-    if (n <= 1) return false;
-    for (let i = 2; i * i <= n; i++) {
-      if (n % i === 0) return false;
+    if (isNaN(x) || isNaN(y)) {
+      return {
+        op,
+        x,
+        y,
+        error: "'x' et 'y' doit être des nombres",
+      };
     }
-    return true;
-  }
 
-  nthPrime(n) {
-    let count = 0;
-    let num = 2;
-    while (count < n) {
-      if (this.isPrime(num)) {
-        count++;
-      }
-      num++;
+    try {
+      const result = this.processMathOperation(op, parseFloat(x), parseFloat(y));
+      return {
+        op,
+        x: parseFloat(x),
+        y: parseFloat(y),
+        value: result,
+      };
+    } catch (error) {
+      return {
+        op,
+        x,
+        y,
+        error: error.message,
+      };
     }
-    return num - 1;
   }
 }
+
+export default MathsController;

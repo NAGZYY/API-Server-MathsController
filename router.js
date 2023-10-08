@@ -1,3 +1,4 @@
+import { API_EndPoint } from './router.js';
 export const API_EndPoint = async function (HttpContext) {
     if (!HttpContext.path.isAPI) {
         return false;
@@ -13,8 +14,13 @@ export const API_EndPoint = async function (HttpContext) {
                 let controller = new Controller(HttpContext);
                 switch (HttpContext.req.method) {
                     case 'GET':
-                        controller.get(HttpContext.path.id);
-                        return true;
+                        if (HttpContext.path.params.op === undefined || HttpContext.path.params.x === undefined || HttpContext.path.params.y === undefined) {
+                            HttpContext.response.badRequest("Les paramètres 'op', 'x' et 'y' sont obligatoires.");
+                            return true;
+                          }
+                          const result = controller.performMathOperation();
+                          HttpContext.response.JSON(result);
+                          return true;
                     case 'POST':
                         if (HttpContext.payload)
                             controller.post(HttpContext.payload);
