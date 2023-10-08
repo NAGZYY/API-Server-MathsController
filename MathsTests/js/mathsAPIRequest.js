@@ -1,5 +1,5 @@
 //const apiBaseURL = "/api/maths";
-const apiBaseURL = "https://pond-amplified-lake.glitch.me/api/maths";
+const apiBaseURL = "https://swift-serious-stingray.glitch.me/api/maths";
 
 function webAPI_getMaths(host, queryString, successCallBack = null, errorCallBack = null) {
     return new Promise(resolve => {
