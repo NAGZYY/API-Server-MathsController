@@ -19,6 +19,9 @@ export const API_EndPoint = async function (HttpContext) {
                             const controller = new MathsController(HttpContext);
                             controller.get();
                             return true;
+                        } else {
+                            controller.get(HttpContext.path.id);
+                            return true
                         }
                     case 'POST':
                         if (HttpContext.payload)
