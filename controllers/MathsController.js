@@ -1,9 +1,11 @@
+import MathModel from '../models/math.js';
+import Repository from '../models/repository.js';
 import Controller from './Controller';
 
 class MathsController extends Controller {
-  constructor(HttpContext, repository = null) {
-    super(HttpContext, repository);
-  }
+    constructor(HttpContext) {
+        super(HttpContext, new Repository(new MathModel()));
+    }
 
   processMathOperation(op, x, y) {
     switch (op) {

@@ -1,4 +1,4 @@
-import { API_EndPoint } from './router.js';
+//import { API_EndPoint } from './router.js';
 export const API_EndPoint = async function (HttpContext) {
     if (!HttpContext.path.isAPI) {
         return false;
