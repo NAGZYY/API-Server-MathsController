@@ -6,152 +6,192 @@ class MathsController extends Controller {
     constructor(HttpContext) {
         super(HttpContext);
     }
+
     get() {
-        const { op, x, y, n } = this.HttpContext.path.params;
-        const response = {};
+        let params = this.HttpContext.path.params
+        let nbrParams = Object.keys(params).length;
 
-        // Vérifiez les paramètres manquants
-        if (!op) {
-            this.HttpContext.response.unprocessableEntity("Opération manquante.");
-            return;
+        const response = params;
+
+        if (!params?.op && nb_params > 0){
+            response.error = "Missing 'op' parameter in request.";
+            this.HttpContext.response.JSON(response);
         }
+        else if (nbrParams == 0) {
+            this.help();
+        } else {
 
-        // Effectuez des opérations en fonction de l'opération spécifiée
-        switch (op) {
-            case '+':
-                if (!x || !y) {
-                    this.HttpContext.response.unprocessableEntity("Paramètres x et y manquants.");
-                    return;
+            let op = params.op;
+            let x = params?.x;
+            let y = params?.y;
+            let n = params?.n;
+
+            // Vérifiez les paramètres manquants
+            if (!op) {
+                response.error = "Opération manquante.";
+            } else {
+                // Effectuez des opérations en fonction de l'opération spécifiée
+                switch (op) {
+                    case ' ':
+                        if (!x || !y) {
+                            response.error = "Paramètres 'x' et/ou 'y' manquants.";
+                        } else if (Object.keys(params).length > 3) {
+                            response.error = "Trop de paramètre dans la requête.";
+                        } else {
+                            response.value = parseFloat(x) + parseFloat(y);                     
+                        }
+                        response.op = '+'
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    case '+':
+                        if (!x || !y) {
+                            response.error = "Paramètres x et y manquants.";
+                        } else if (Object.keys(params).length > 3) {
+                            response.error = "Trop de paramètre dans la requête.";
+                        } else {
+                            response.value = parseFloat(x) + parseFloat(y);
+                        }
+                        response.op = '+'
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    case '-':
+                        if (!x || !y) {
+                            response.error = "Paramètres x et y manquants.";
+                        } else if (Object.keys(params).length > 3) {
+                            response.error = "Trop de paramètre dans la requête.";
+                        } else {
+                            response.value = parseFloat(x) - parseFloat(y);
+                        }
+                        response.op = '-'
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    case '*':
+                        if (!x || !y) {
+                            response.error = "Paramètres x et y manquants.";
+                        } else if (Object.keys(params).length > 3) {
+                            response.error = "Trop de paramètre dans la requête.";
+                        } else {
+                            response.value = parseFloat(x) * parseFloat(y);
+                        }
+                        response.op = '*'
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    case '/':
+                        if (!x || !y) {
+                            response.error = "Paramètres x et y manquants.";
+                        } else if (y === 0) {
+                            response.error = "Division par zéro.";
+                        } else if (Object.keys(params).length > 3) {
+                            response.error = "Trop de paramètre dans la requête.";
+                        } else {
+                            response.value = parseFloat(x) / parseFloat(y);
+                        }
+                        response.op = '/'
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    case '%':
+                        if (!x || !y) {
+                            response.error = "Paramètres x et y manquants.";
+                        } else if (y === 0) {
+                            response.error = "Modulo par zéro.";
+                        } else if (Object.keys(params).length > 3) {
+                            response.error = "Trop de paramètre dans la requête.";
+                        } else {
+                            response.value = parseFloat(x) % parseFloat(y);
+                        }
+                        response.op = '%'
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    case '!':
+                        if (!n) {
+                            response.error = "Paramètre n manquant.";
+                        } else if (n < 0) {
+                            response.error = "Factorielle d'un nombre négatif.";
+                        } else {
+                            response.result = this.factorial(Number(n));
+                        }
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    case 'p':
+                        if (!n) {
+                            response.error = "Paramètre n manquant.";
+                        } else if (n <= 1) {
+                            response.result = false;
+                        } else {
+                            response.result = this.isPrime(Number(n));
+                        }
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    case 'np':
+                        if (!n) {
+                            response.error = "Paramètre n manquant.";
+                        } else if (n <= 0) {
+                            response.error = "n doit être un nombre positif.";
+                        } else {
+                            response.result = this.nthPrime(Number(n));
+                        }
+                        this.HttpContext.response.JSON(response);
+                        break;
+                    default:
+                        response.error = "Opération non valide.";
                 }
-                this.add(Number(x), Number(y));
-                break;
-            case '-':
-                if (!x || !y) {
-                    this.HttpContext.response.unprocessableEntity("Paramètres x et y manquants.");
-                    return;
-                }
-                this.subtract(Number(x), Number(y));
-                break;
-            case '*':
-                if (!x || !y) {
-                    this.HttpContext.response.unprocessableEntity("Paramètres x et y manquants.");
-                    return;
-                }
-                this.multiply(Number(x), Number(y));
-                break;
-            case '/':
-                if (!x || !y) {
-                    this.HttpContext.response.unprocessableEntity("Paramètres x et y manquants.");
-                    return;
-                }
-                this.divide(Number(x), Number(y));
-                break;
-            case '%':
-                if (!x || !y) {
-                    this.HttpContext.response.unprocessableEntity("Paramètres x et y manquants.");
-                    return;
-                }
-                this.modulo(Number(x), Number(y));
-                break;
-            case '!':
-                if (!n) {
-                    this.HttpContext.response.unprocessableEntity("Paramètre n manquant.");
-                    return;
-                }
-                this.factorial(Number(n));
-                break;
-            case 'p':
-                if (!n) {
-                    this.HttpContext.response.unprocessableEntity("Paramètre n manquant.");
-                    return;
-                }
-                this.isPrime(Number(n));
-                break;
-            case 'np':
-                if (!n) {
-                    this.HttpContext.response.unprocessableEntity("Paramètre n manquant.");
-                    return;
-                }
-                this.nthPrime(Number(n));
-                break;
-            default:
-                this.HttpContext.response.unprocessableEntity("Opération non valide.");
+            }
         }
     }
 
+    // ... les autres méthodes de calcul ...
+
+    // Modifiez ces méthodes pour renvoyer les résultats au lieu d'utiliser "this.HttpContext.response.ok({ result })"
     add(x, y) {
-        const result = x + y;
-        this.HttpContext.response.ok({ result });
+        return x + y;
     }
 
     subtract(x, y) {
-        const result = x - y;
-        this.HttpContext.response.ok({ result });
+        return x - y;
     }
 
     multiply(x, y) {
-        const result = x * y;
-        this.HttpContext.response.ok({ result });
+        return x * y;
     }
 
     divide(x, y) {
-        if (y === 0) {
-            this.HttpContext.response.unprocessableEntity("Division par zéro.");
-            return;
-        }
-        const result = x / y;
-        this.HttpContext.response.ok({ result });
+        return x / y;
     }
 
     modulo(x, y) {
-        if (y === 0) {
-            this.HttpContext.response.unprocessableEntity("Modulo par zéro.");
-            return;
-        }
-        const result = x % y;
-        this.HttpContext.response.ok({ result });
+        return x % y;
     }
 
     factorial(n) {
-        if (n < 0) {
-            this.HttpContext.response.unprocessableEntity("Factorielle d'un nombre négatif.");
-            return;
-        }
         let result = 1;
         for (let i = 1; i <= n; i++) {
             result *= i;
         }
-        this.HttpContext.response.ok({ result });
+        return result;
     }
 
     isPrime(n) {
         if (n <= 1) {
-            this.HttpContext.response.ok({ result: false });
-            return;
+            return false;
         }
         for (let i = 2; i <= Math.sqrt(n); i++) {
             if (n % i === 0) {
-                this.HttpContext.response.ok({ result: false });
-                return;
+                return false;
             }
         }
-        this.HttpContext.response.ok({ result: true });
+        return true;
     }
 
     nthPrime(n) {
-        if (n <= 0) {
-            this.HttpContext.response.unprocessableEntity("n doit être un nombre positif.");
-            return;
-        }
         let count = 0;
         let num = 2;
         while (count < n) {
-            if (this.isPrime(num).result) {
+            if (this.isPrime(num)) {
                 count++;
             }
             num++;
         }
-        this.HttpContext.response.ok({ result: num - 1 });
+        return num - 1;
     }
 }
 
