@@ -8,6 +8,7 @@ class MathsController extends Controller {
     }
     get() {
         const { op, x, y, n } = this.HttpContext.path.params;
+        const response = {};
 
         // Vérifiez les paramètres manquants
         if (!op) {
