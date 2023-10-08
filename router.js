@@ -15,6 +15,43 @@ export const API_EndPoint = async function (HttpContext) {
                 switch (HttpContext.req.method) {
                     case 'GET':
                         controller.get(HttpContext.path.id);
+                        // Extraire les paramètres op, x et y de HttpContext.path.params
+                        const { op, x, y } = HttpContext.path.params;
+
+                        // Vérifier si les paramètres sont présents
+                        if (op && x !== undefined && y !== undefined) {
+                            try {
+                                let result;
+                                if (op === '+') {
+                                    result = controller.add(parseFloat(x), parseFloat(y));
+                                } else if (op === '-') {
+                                    result = controller.subtract(parseFloat(x), parseFloat(y));
+                                } else if (op === '*') {
+                                    result = controller.multiply(parseFloat(x), parseFloat(y));
+                                } else if (op === '/') {
+                                    result = controller.divide(parseFloat(x), parseFloat(y));
+                                } else if (op === '%') {
+                                    result = controller.modulo(parseFloat(x), parseFloat(y));
+                                } else {
+                                    HttpContext.response.badRequest(`Invalid operation: ${op}`);
+                                    return true;
+                                }
+
+                                HttpContext.response.JSON({
+                                    op,
+                                    x,
+                                    y,
+                                    value: result
+                                });
+                                return true;
+                            } catch (error) {
+                                HttpContext.response.badRequest(error.message);
+                                return true;
+                            }
+                        } else {
+                            HttpContext.response.badRequest('Missing or invalid parameters');
+                            return true;
+                        }
                         return true;
                     case 'POST':
                         if (HttpContext.payload)
@@ -27,7 +64,7 @@ export const API_EndPoint = async function (HttpContext) {
                             controller.put(HttpContext.payload);
                         else
                             HttpContext.response.unsupported();
-                            return true;
+                        return true;
                     case 'DELETE':
                         controller.remove(HttpContext.path.id);
                         return true;
