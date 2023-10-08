@@ -15,41 +15,60 @@ export const API_EndPoint = async function (HttpContext) {
                 switch (HttpContext.req.method) {
                     case 'GET':
                         controller.get(HttpContext.path.id);
-                        // Extraire les paramètres op, x et y de HttpContext.path.params
-                        const { op, x, y } = HttpContext.path.params;
+                        
+                        const { op, x, y, n } = HttpContext.path.params;
 
-                        // Vérifier si les paramètres sont présents
-                        if (op && x !== undefined && y !== undefined) {
-                            try {
-                                let result;
-                                if (op === '+') {
-                                    result = controller.add(parseFloat(x), parseFloat(y));
-                                } else if (op === '-') {
-                                    result = controller.subtract(parseFloat(x), parseFloat(y));
-                                } else if (op === '*') {
-                                    result = controller.multiply(parseFloat(x), parseFloat(y));
-                                } else if (op === '/') {
-                                    result = controller.divide(parseFloat(x), parseFloat(y));
-                                } else if (op === '%') {
-                                    result = controller.modulo(parseFloat(x), parseFloat(y));
-                                } else {
-                                    HttpContext.response.badRequest(`Invalid operation: ${op}`);
-                                    return true;
-                                }
-
-                                HttpContext.response.JSON({
-                                    op,
-                                    x,
-                                    y,
-                                    value: result
-                                });
-                                return true;
-                            } catch (error) {
-                                HttpContext.response.badRequest(error.message);
+                        if (!op) {
+                            HttpContext.response.badRequest("L'opération 'op' est manquante.");
+                            return true;
+                        }
+        
+                        if (op === '+') {
+                            const result = controller.performMathOperation(op, x, y);
+                            HttpContext.response.json(result);
+                            return true;
+                        } else if (op === '-') {
+                            const result = controller.performMathOperation(op, x, y);
+                            HttpContext.response.json(result);
+                            return true;
+                        } else if (op === '*') {
+                            const result = controller.performMathOperation(op, x, y);
+                            HttpContext.response.json(result);
+                            return true;
+                        } else if (op === '/') {
+                            const result = controller.performMathOperation(op, x, y);
+                            HttpContext.response.json(result);
+                            return true;
+                        } else if (op === '%') {
+                            const result = controller.performMathOperation(op, x, y);
+                            HttpContext.response.json(result);
+                            return true;
+                        } else if (op === '!') {
+                            if (!n) {
+                                HttpContext.response.badRequest("Le paramètre 'n' est manquant pour l'opération '!' (factorielle).");
                                 return true;
                             }
+                            const result = controller.performMathOperation(op, x, y, n);
+                            HttpContext.response.json(result);
+                            return true;
+                        } else if (op === 'p') {
+                            if (!n) {
+                                HttpContext.response.badRequest("Le paramètre 'n' est manquant pour l'opération 'p' (vérification de nombre premier).");
+                                return true;
+                            }
+                            const result = controller.performMathOperation(op, x, y, n);
+                            HttpContext.response.json(result);
+                            return true;
+                        } else if (op === 'np') {
+                            if (!n) {
+                                HttpContext.response.badRequest("Le paramètre 'n' est manquant pour l'opération 'np' (n-ième nombre premier).");
+                                return true;
+                            }
+                            const result = controller.performMathOperation(op, x, y, n);
+                            HttpContext.response.json(result);
+                            return true;
                         } else {
-                            HttpContext.response.badRequest('Missing or invalid parameters');
+                            HttpContext.response.badRequest(`L'opération '${op}' n'est pas prise en charge.`);
                             return true;
                         }
                         return true;
