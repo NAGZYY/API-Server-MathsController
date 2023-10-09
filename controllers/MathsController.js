@@ -130,7 +130,7 @@ export default class MathsController extends Controller {
                         } else if (n <= 0) {
                             response.error = "Factorielle d'un nombre plus petit ou égal à zéro.";
                         } else {
-                            response.value = this.factorial(n);
+                            response.value = this.factorial(Number(n));
                         }
                         this.HttpContext.response.JSON(response);
                         break;
@@ -140,7 +140,7 @@ export default class MathsController extends Controller {
                         } else if (n <= 1) {
                             response.value = false;
                         } else {
-                            response.value = this.isPrime(n);
+                            response.value = this.isPrime(Number(n));
                         }
                         this.HttpContext.response.JSON(response);
                         break;
@@ -172,7 +172,7 @@ export default class MathsController extends Controller {
     }
 
     isPrime(n) {
-        if (n <= 1) {
+        if (!Number.isInteger(n) || n <= 1) {
             return false;
         }
         for (let i = 2; i <= Math.sqrt(n); i++) {
@@ -182,6 +182,7 @@ export default class MathsController extends Controller {
         }
         return true;
     }
+    
 
     nthPrime(n) {
         if (n === 1) {
