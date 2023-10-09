@@ -13,7 +13,6 @@ export default class MathsController extends Controller {
         let response = params;
 
         this.HttpContext.response.JSON(response);
-        console.log("Test222");
 
         if (!params?.op && nbrParams > 0){
             response.error = "Il manque l'opérateur dans la requête.";
