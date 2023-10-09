@@ -152,7 +152,7 @@ export default class MathsController extends Controller {
                     case 'np':
                         if (!n) {
                             response.error = "Paramètre n manquant.";
-                        } else if (n <= 1) {
+                        } else if (n <= 0) {
                             response.error = "n doit être un nombre positif.";
                         } else {
                             response.value = this.nthPrime(Number(n));
