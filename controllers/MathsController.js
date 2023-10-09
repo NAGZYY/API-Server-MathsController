@@ -163,7 +163,7 @@ export default class MathsController extends Controller {
                 }
             }
         }
-        //this.HttpContext.response.JSON(response);
+        this.HttpContext.response.JSON(response);
     }
 
     // Méthodes de calcul
