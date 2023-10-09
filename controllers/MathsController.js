@@ -127,7 +127,7 @@ export default class MathsController extends Controller {
                     case '!':
                         if (!n) {
                             response.error = "Paramètre n manquant.";
-                        } else if (n < 0) {
+                        } else if (n <= 0) {
                             response.error = "Factorielle d'un nombre négatif.";
                         } else {
                             response.value = this.factorial(Number(n));
