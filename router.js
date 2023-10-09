@@ -14,6 +14,32 @@ export const API_EndPoint = async function (HttpContext) {
                 let controller = new Controller(HttpContext);
                 switch (HttpContext.req.method) {
                     case 'GET':
+                        app.get('/api/maths?', (req, res) => {
+                            const documentationHTML = `
+                            <!DOCTYPE html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>Math API Documentation</title>
+                            </head>
+                            <body>
+                                <h1>GET : Maths endpoint</h1>
+                                <p>List of possible query strings:</p>
+                                <hr>
+                                <p>? op = + & x = number & y = number<br>"return {\\"op\\":\\"+'', \\"x\\":number, \\"y\\":number, \\"value\\": x + y}"</p>
+                                <p>? op = • & x = number & y = number<br>"return {\\"op\\":\\"•\\", \\"x\\":number, \\"y\\":number, \\"value\\": x • y}"</p>
+                                <p>? op = * & x = number & y = number<br>"return {\\"op\\":\\"*\\", \\"x\\":number, \\"y\\":number, \\"value\\": x * y}"</p>
+                                <p>? op = I & x = number & y = number<br>"return {\\"op\\":\\"I\\", \\"x\\":number, \\"y\\":number, \\"value\\": x I y}"</p>
+                                <p>? op = % & x = number & y = number<br>"return {\\"op\\":\\"0/o\\", \\"x\\":number, \\"y\\":number, \\"value\\": x 0/o y}"</p>
+                                <p>? op = !& n = integer<br>"return {\\"op\\":\\"0/o\\", \\"n\\":integer, \\"value\\": n!}"</p>
+                                <p>? op = p & n = integer<br>"return {\\"op\\":\\"p\\", \\"n\\":integer, \\"value\\":true if n is a prime number}"</p>
+                                <p>? op = np & n = integer<br>"return {\\"op\\":\\"np\\", \\"n\\":integer, \\"value\\":nth prime number}"</p>
+                            </body>
+                            </html>
+                            `;
+                        
+                            res.send(documentationHTML);
+                        });
                         controller.get(HttpContext.path.id);
                         return true
                     case 'POST':
