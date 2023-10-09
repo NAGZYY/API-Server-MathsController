@@ -106,7 +106,7 @@ export default class MathsController extends Controller {
                     case '%':
                         if (!x || !y) {
                             response.error = "Paramètres x et y manquants.";
-                        } else if (y === 0) {
+                        } else if (x == 0 || y == 0) {
                             response.error = "Modulo par zéro.";
                         } else if (Object.keys(params).length > 3) {
                             response.error = "Trop de paramètre dans la requête.";
