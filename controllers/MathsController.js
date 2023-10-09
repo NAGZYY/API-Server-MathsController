@@ -40,11 +40,11 @@ export default class MathsController extends Controller {
             </p>
             <p>
             ? op = % & x = number & y = number<br>
-            "return {"op":"0/o","x":number, "y'':number, "value": x % y}"<br>
+            "return {"op":"%","x":number, "y'':number, "value": x % y}"<br>
             </p>
             <p>
             ? op = !& n = integer<br>
-            "return {"op":"0/o","n":integer,"value": n!}"<br>
+            "return {"op":"%","n":integer,"value": n!}"<br>
             </p>
             <p>
             ? op = p & n = integer<br>
