@@ -140,10 +140,10 @@ export default class MathsController extends Controller {
                         } else if (n <= 1) {
                             response.value = false;
                         } else {
-                            if (n.isInteger) {
-                                response.value = this.isPrime(Number(n));
-                            } else {
+                            if (n % 1 !== 0) {
                                 response.error = "Le nombre est à virugule.";
+                            } else {
+                                response.value = this.isPrime(Number(n));
                             }
                             
                         }
