@@ -141,7 +141,7 @@ export default class MathsController extends Controller {
                             response.value = false;
                         } else {
                             if (n % 1 !== 0) {
-                                response.error = "Le nombre est à virugule.";
+                                response.error = "Le nombre n'est pas un entier.";
                             } else {
                                 response.value = this.isPrime(Number(n));
                             }
@@ -155,7 +155,11 @@ export default class MathsController extends Controller {
                         } else if (n <= 0) {
                             response.error = "n doit être un nombre positif.";
                         } else {
-                            response.value = this.nthPrime(Number(n));
+                            if (n % 1 !== 0) {
+                                response.error = "Le nombre n'est pas un entier.";
+                            } else {
+                                response.value = this.nthPrime(Number(n));
+                            }
                         }
                         this.HttpContext.response.JSON(response);
                         break;
