@@ -107,7 +107,7 @@ export default class MathsController extends Controller {
                         if (!x || !y) {
                             response.error = "Paramètres x et y manquants.";
                         } else if (x == 0 || y == 0) {
-                            response.error = "Impossible: Modulo par zéro.";
+                            response.error = "Impossible: xModulo par zéro.";
                         } else if (Object.keys(params).length > 3) {
                             response.error = "Trop de paramètre dans la requête.";
                         } else {
@@ -164,11 +164,11 @@ export default class MathsController extends Controller {
 
     // Méthodes de calcul
     factorial(n) {
-        let result = 1;
-        for (let i = 1; i <= n; i++) {
-            result *= i;
+        if (n === 0) {
+            return 1;
+        } else {
+            return n * factorielle(n - 1);
         }
-        return result;
     }
 
     isPrime(n) {
