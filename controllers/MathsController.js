@@ -13,11 +13,49 @@ export default class MathsController extends Controller {
         let response = params;
 
         if (!params?.op && nbrParams > 0){
-            response.error = "Il manque l'opérateur dans la requête.";
             this.HttpContext.response.JSON(response);
         }
         else if (nbrParams == 0) {
-            this.help();
+            let html = `
+            <strong style="font-family: 'Arial', sans-serif;">
+            <h2>GET : Maths endpoint<br>
+            Liste des possible "query strings" :</h2>
+            <hr>
+            <p>
+            ? op = + & x = number & y = number<br>
+            "return {"op":"+", "x":number, "y":number, "value": x + y}"<br>
+            </p>
+            <p>
+            ? op = • & x = number & y = number<br>
+            "return {"op" :" ","x":number,"y":number, "value": x - y}"<br>
+            </p>
+            <p>
+            ? op = * & x = number & y = number<br>
+            "return {"op" :"*","x":number,"y":number,"value": x * y}"<br>
+            </p>
+            <p>
+            ? op = I & x = number & y = number<br>
+            "return {"op" :"/","x":number,"y":number, "value": x / y}"<br>
+            </p>
+            <p>
+            ? op = % & x = number & y = number<br>
+            "return {"op":"0/o","x":number, "y'':number, "value": x % y}"<br>
+            </p>
+            <p>
+            ? op = !& n = integer<br>
+            "return {"op":"0/o","n":integer,"value": n!}"<br>
+            </p>
+            <p>
+            ? op = p & n = integer<br>
+            "return {"op":"p","n":integer, "value":"true si n est un nombre premier}"<br>
+            </p>
+            <p>
+            ? op = np & n = integer<br>
+            "return {"op":"n","n":integer,"value":"n'ième nombre premier"}";<br>
+            </p>
+            </strong>
+            `;
+            this.HttpContext.response.HTML(html);
         } else {
 
             let op = params.op;
@@ -164,41 +202,6 @@ export default class MathsController extends Controller {
             }
         }
         //this.HttpContext.response.JSON(response);
-    }
-
-    // Méthode HELP
-    help() {
-        const documentation = `
-        GET : Maths endpoint
-        List of possible query strings:
-        ---------------------------------------------------------------------------
-
-        ? op = + & x = number & y = number
-        "return {"op":"+", "x":number, "y":number, "value": x + y}"
-
-        ? op = • & x = number & y = number
-        "return {"op" :" ","x":number,"y":number, "value": x • y}"
-
-        ? op = * & x = number & y = number
-        "return {"op" :"*","x":number,"y":number,"value": x * y}"
-
-        ? op = I & x = number & y = number
-        "return {"op" :"/","x":number,"y":number, "value": x I y}"
-
-        ? op = % & x = number & y = number
-        "return {"op":"0/o","x":number, "y'':number, "value": x 0/o y}"
-
-        ? op = !& n = integer
-        "return {"op":"0/o","n":integer,"value": n!}"
-
-        ? op = p & n = integer
-        "return {"op":"p","n":integer, "value":"true if n is a prime number}"
-
-        ? op = np & n = integer
-        "return {"op":"n","n":integer,"value":"nth prime number"}";
-        `;
-
-        this.HttpContext.response.send(documentation);
     }
 
     // Méthodes de calcul
