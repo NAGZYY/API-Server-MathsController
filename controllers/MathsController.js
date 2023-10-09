@@ -107,7 +107,7 @@ export default class MathsController extends Controller {
                         if (!x || !y) {
                             response.error = "Paramètres x et y manquants.";
                         } else if (x == 0 || y == 0) {
-                            response.error = "Impossible: xModulo par zéro.";
+                            response.error = "Impossible: Modulo par zéro.";
                         } else if (Object.keys(params).length > 3) {
                             response.error = "Trop de paramètre dans la requête.";
                         } else {
@@ -128,7 +128,7 @@ export default class MathsController extends Controller {
                         if (!n) {
                             response.error = "Paramètre n manquant.";
                         } else if (n <= 0) {
-                            response.error = "Factorielle d'un nombre négatif.";
+                            response.error = "Factorielle d'un nombre plus petit ou égal à zéro.";
                         } else {
                             response.value = this.factorial(Number(n));
                         }
