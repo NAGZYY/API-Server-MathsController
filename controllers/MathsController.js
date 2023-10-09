@@ -163,7 +163,42 @@ export default class MathsController extends Controller {
                 }
             }
         }
-        this.HttpContext.response.JSON(response);
+        //this.HttpContext.response.JSON(response);
+    }
+
+    // Méthode HELP
+    help() {
+        const documentation = `
+        GET : Maths endpoint
+        List of possible query strings:
+        ---------------------------------------------------------------------------
+
+        ? op = + & x = number & y = number
+        "return {"op":"+", "x":number, "y":number, "value": x + y}"
+
+        ? op = • & x = number & y = number
+        "return {"op" :" ","x":number,"y":number, "value": x • y}"
+
+        ? op = * & x = number & y = number
+        "return {"op" :"*","x":number,"y":number,"value": x * y}"
+
+        ? op = I & x = number & y = number
+        "return {"op" :"/","x":number,"y":number, "value": x I y}"
+
+        ? op = % & x = number & y = number
+        "return {"op":"0/o","x":number, "y'':number, "value": x 0/o y}"
+
+        ? op = !& n = integer
+        "return {"op":"0/o","n":integer,"value": n!}"
+
+        ? op = p & n = integer
+        "return {"op":"p","n":integer, "value":"true if n is a prime number}"
+
+        ? op = np & n = integer
+        "return {"op":"n","n":integer,"value":"nth prime number"}";
+        `;
+
+        this.HttpContext.response.send(documentation);
     }
 
     // Méthodes de calcul
