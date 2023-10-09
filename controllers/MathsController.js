@@ -140,7 +140,12 @@ export default class MathsController extends Controller {
                         } else if (n <= 1) {
                             response.value = false;
                         } else {
-                            response.value = this.isPrime(Number(n));
+                            if (n.isInteger) {
+                                response.value = this.isPrime(Number(n));
+                            } else {
+                                response.error = "Le nombre est à virugule.";
+                            }
+                            
                         }
                         this.HttpContext.response.JSON(response);
                         break;
@@ -172,7 +177,7 @@ export default class MathsController extends Controller {
     }
 
     isPrime(n) {
-        if (!Number.isInteger(n) || n <= 1) {
+        if (n <= 1) {
             return false;
         }
         for (let i = 2; i <= Math.sqrt(n); i++) {
