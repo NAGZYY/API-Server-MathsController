@@ -12,8 +12,6 @@ export default class MathsController extends Controller {
 
         let response = params;
 
-        this.HttpContext.response.JSON(response);
-
         if (!params?.op && nbrParams > 0){
             response.error = "Il manque l'opérateur dans la requête.";
             this.HttpContext.response.JSON(response);
@@ -39,7 +37,15 @@ export default class MathsController extends Controller {
                         } else if (Object.keys(params).length > 3) {
                             response.error = "Trop de paramètre dans la requête.";
                         } else {
-                            response.value = parseFloat(x) + parseFloat(y);                     
+                            if (isNaN(parseFloat(x) + parseFloat(y))) {
+                                if (isNaN(x)) {
+                                    response.error = "Le paramètre x n'est pas un nombre.";
+                                } else {
+                                    response.error = "Le paramètre y n'est pas un nombre.";
+                                }
+                            } else {
+                                response.value = parseFloat(x) + parseFloat(y);                
+                            }   
                         }
                         response.op = '+' 
                         this.HttpContext.response.JSON(response);
@@ -61,7 +67,15 @@ export default class MathsController extends Controller {
                         } else if (Object.keys(params).length > 3) {
                             response.error = "Trop de paramètre dans la requête.";
                         } else {
-                            response.value = parseFloat(x) * parseFloat(y);
+                            if (isNaN(parseFloat(x) * parseFloat(y))) {
+                                if (isNaN(x)) {
+                                    response.error = "Le paramètre x n'est pas un nombre.";
+                                } else {
+                                    response.error = "Le paramètre y n'est pas un nombre.";
+                                }
+                            } else {
+                                response.value = parseFloat(x) * parseFloat(y);                
+                            }   
                         }
                         response.op = '*'
                         this.HttpContext.response.JSON(response);
@@ -74,7 +88,15 @@ export default class MathsController extends Controller {
                         } else if (Object.keys(params).length > 3) {
                             response.error = "Trop de paramètre dans la requête.";
                         } else {
-                            response.value = parseFloat(x) / parseFloat(y);
+                            if (isNaN(parseFloat(x) / parseFloat(y))) {
+                                if (isNaN(x)) {
+                                    response.error = "Le paramètre x n'est pas un nombre.";
+                                } else {
+                                    response.error = "Le paramètre y n'est pas un nombre.";
+                                }
+                            } else {
+                                response.value = parseFloat(x) / parseFloat(y);                
+                            }   
                         }
                         response.op = '/'
                         this.HttpContext.response.JSON(response);
@@ -87,7 +109,15 @@ export default class MathsController extends Controller {
                         } else if (Object.keys(params).length > 3) {
                             response.error = "Trop de paramètre dans la requête.";
                         } else {
-                            response.value = parseFloat(x) % parseFloat(y);
+                            if (isNaN(parseFloat(x) % parseFloat(y))) {
+                                if (isNaN(x)) {
+                                    response.error = "Le paramètre x n'est pas un nombre.";
+                                } else {
+                                    response.error = "Le paramètre y n'est pas un nombre.";
+                                }
+                            } else {
+                                response.value = parseFloat(x) % parseFloat(y);                
+                            }   
                         }
                         response.op = '%'
                         this.HttpContext.response.JSON(response);
@@ -98,7 +128,7 @@ export default class MathsController extends Controller {
                         } else if (n < 0) {
                             response.error = "Factorielle d'un nombre négatif.";
                         } else {
-                            response.result = this.factorial(Number(n));
+                            response.value = this.factorial(Number(n));
                         }
                         this.HttpContext.response.JSON(response);
                         break;
@@ -106,9 +136,9 @@ export default class MathsController extends Controller {
                         if (!n) {
                             response.error = "Paramètre n manquant.";
                         } else if (n <= 1) {
-                            response.result = false;
+                            response.value = false;
                         } else {
-                            response.result = this.isPrime(Number(n));
+                            response.value = this.isPrime(Number(n));
                         }
                         this.HttpContext.response.JSON(response);
                         break;
@@ -118,7 +148,7 @@ export default class MathsController extends Controller {
                         } else if (n <= 0) {
                             response.error = "n doit être un nombre positif.";
                         } else {
-                            response.result = this.nthPrime(Number(n));
+                            response.value = this.nthPrime(Number(n));
                         }
                         this.HttpContext.response.JSON(response);
                         break;
@@ -127,7 +157,7 @@ export default class MathsController extends Controller {
                 }
             }
         }
-        this.HttpContext.response.JSON(response);
+        //this.HttpContext.response.JSON(response);
     }
 
     // Méthodes de calcul
