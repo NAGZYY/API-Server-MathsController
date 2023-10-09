@@ -88,7 +88,9 @@ export default class MathsController extends Controller {
                         } else if (Object.keys(params).length > 3) {
                             response.error = "Trop de paramètre dans la requête.";
                         } else {
-                            if (isNaN(parseFloat(x) / parseFloat(y))) {
+                            if (x == 0 || y == 0) {
+                                response.error = "Impossible de diviser par zéro.";
+                            }  else if (isNaN(parseFloat(x) / parseFloat(y))) {
                                 if (isNaN(x)) {
                                     response.error = "Le paramètre x n'est pas un nombre.";
                                 } else {
