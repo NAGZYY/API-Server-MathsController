@@ -137,7 +137,7 @@ export default class MathsController extends Controller {
                     case 'p':
                         if (!n) {
                             response.error = "Paramètre n manquant.";
-                        } else if (n <= 1) {
+                        } else if (n <= 0) {
                             response.value = false;
                         } else {
                             if (n % 1 !== 0) {
