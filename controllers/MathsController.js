@@ -45,17 +45,6 @@ export default class MathsController extends Controller {
                         response.op = '+' 
                         this.HttpContext.response.JSON(response);
                         break;
-                    case '+':
-                        if (!x || !y) {
-                            response.error = "Paramètres x et y manquants.";
-                        } else if (Object.keys(params).length > 3) {
-                            response.error = "Trop de paramètre dans la requête.";
-                        } else {
-                            response.value = parseFloat(x) + parseFloat(y);
-                        }
-                        response.op = '+'
-                        this.HttpContext.response.JSON(response);
-                        break;
                     case '-':
                         if (!x || !y) {
                             response.error = "Paramètres x et y manquants.";
