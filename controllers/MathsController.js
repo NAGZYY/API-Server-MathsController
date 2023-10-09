@@ -9,7 +9,7 @@ export default class MathsController extends Controller {
     get() {
         let params = this.HttpContext.path.params
         let nbrParams = Object.keys(params).length;
-
+        console.log("nbrParams");
         let response = params;
 
         if (!params?.op && nbrParams > 0){
