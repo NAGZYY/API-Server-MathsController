@@ -184,14 +184,20 @@ export default class MathsController extends Controller {
     }
 
     nthPrime(n) {
-        let count = 0;
-        let num = 2;
-        while (count < n) {
-            if (this.isPrime(num)) {
-                count++;
-            }
-            num++;
+        if (n === 1) {
+            return 2;
         }
-        return num - 1;
+        let count = 1;
+        let candidate = 3; 
+    
+        while (count < n) {
+            if (isPrime(candidate)) {
+                count++;
+                if (count === n) {
+                    return candidate;
+                }
+            }
+            candidate += 2;
+        }
     }
 }
