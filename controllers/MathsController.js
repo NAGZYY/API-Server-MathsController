@@ -13,6 +13,7 @@ export default class MathsController extends Controller {
         let response = params;
 
         if (!params?.op && nbrParams > 0){
+            response.error = "Il manque l'opérateur dans la requête.";
             this.HttpContext.response.JSON(response);
         }
         else if (nbrParams == 0) {
