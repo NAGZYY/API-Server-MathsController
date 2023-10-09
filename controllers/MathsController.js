@@ -152,14 +152,10 @@ export default class MathsController extends Controller {
                     case 'np':
                         if (!n) {
                             response.error = "Paramètre n manquant.";
-                        } else if (n <= 0) {
+                        } else if (n <= 1) {
                             response.error = "n doit être un nombre positif.";
                         } else {
-                            if (n % 1 !== 0) {
-                                response.error = "Le nombre n'est pas un entier.";
-                            } else {
-                                response.value = this.nthPrime(Number(n));
-                            }
+                            response.value = this.nthPrime(Number(n));
                         }
                         this.HttpContext.response.JSON(response);
                         break;
