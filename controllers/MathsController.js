@@ -1,8 +1,7 @@
-import MathModel from '../models/math.js';
-import Repository from '../models/repository.js';
-import Controller from './Controller';
-
-class MathsController extends Controller {
+//import MathModel from '../models/math.js';
+//import Repository from '../models/repository.js';
+import Controller from './Controller.js';
+export default class MathsController extends Controller { 
     constructor(HttpContext) {
         super(HttpContext);
     }
@@ -11,10 +10,13 @@ class MathsController extends Controller {
         let params = this.HttpContext.path.params
         let nbrParams = Object.keys(params).length;
 
-        const response = params;
+        let response = params;
 
-        if (!params?.op && nb_params > 0){
-            response.error = "Missing 'op' parameter in request.";
+        this.HttpContext.response.JSON(response);
+        console.log("Test222");
+
+        if (!params?.op && nbrParams > 0){
+            response.error = "Il manque l'opérateur dans la requête.";
             this.HttpContext.response.JSON(response);
         }
         else if (nbrParams == 0) {
@@ -40,7 +42,7 @@ class MathsController extends Controller {
                         } else {
                             response.value = parseFloat(x) + parseFloat(y);                     
                         }
-                        response.op = '+'
+                        response.op = '+' 
                         this.HttpContext.response.JSON(response);
                         break;
                     case '+':
@@ -137,31 +139,10 @@ class MathsController extends Controller {
                 }
             }
         }
+        this.HttpContext.response.JSON(response);
     }
 
-    // ... les autres méthodes de calcul ...
-
-    // Modifiez ces méthodes pour renvoyer les résultats au lieu d'utiliser "this.HttpContext.response.ok({ result })"
-    add(x, y) {
-        return x + y;
-    }
-
-    subtract(x, y) {
-        return x - y;
-    }
-
-    multiply(x, y) {
-        return x * y;
-    }
-
-    divide(x, y) {
-        return x / y;
-    }
-
-    modulo(x, y) {
-        return x % y;
-    }
-
+    // Méthodes de calcul
     factorial(n) {
         let result = 1;
         for (let i = 1; i <= n; i++) {
@@ -194,5 +175,3 @@ class MathsController extends Controller {
         return num - 1;
     }
 }
-
-export default MathsController;
