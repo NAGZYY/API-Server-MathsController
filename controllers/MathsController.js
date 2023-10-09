@@ -130,7 +130,7 @@ export default class MathsController extends Controller {
                         } else if (n <= 0) {
                             response.error = "Factorielle d'un nombre plus petit ou égal à zéro.";
                         } else {
-                            response.value = this.factorial(Number(n));
+                            response.value = this.factorial(n);
                         }
                         this.HttpContext.response.JSON(response);
                         break;
@@ -140,7 +140,7 @@ export default class MathsController extends Controller {
                         } else if (n <= 1) {
                             response.value = false;
                         } else {
-                            response.value = this.isPrime(Number(n));
+                            response.value = this.isPrime(n);
                         }
                         this.HttpContext.response.JSON(response);
                         break;
