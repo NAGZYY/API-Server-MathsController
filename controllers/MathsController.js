@@ -121,44 +121,32 @@ export default class MathsController extends Controller {
                         break;
                     case '/':
                         if (!x || !y) {
-                            response.error = "Paramètres x et y manquants.";
-                        } else if (y === 0) {
-                            response.error = "Division par zéro.";
+                            response.error = "Paramètres 'x' et/ou 'y' manquants.";
                         } else if (Object.keys(params).length > 3) {
-                            response.error = "Trop de paramètre dans la requête.";
+                            response.error = "Trop de paramètres dans la requête.";
                         } else {
-                            if (x == 0 || y == 0) {
-                                response.error = "Impossible de diviser par zéro.";
-                            }  else if (isNaN(parseFloat(x) / parseFloat(y))) {
-                                if (isNaN(x)) {
-                                    response.error = "Le paramètre x n'est pas un nombre.";
-                                } else {
-                                    response.error = "Le paramètre y n'est pas un nombre.";
-                                }
-                            } else {
-                                response.value = parseFloat(x) / parseFloat(y);                
-                            }   
+                            const result = parseFloat(x) / parseFloat(y);
+                            response.value = isFinite(result) ? result.toString() : "Infinity";
+                            if (isNaN(result)) {
+                                response.value = "NaN";
+                            }
                         }
                         response.op = '/'
                         this.HttpContext.response.JSON(response);
                         break;
                     case '%':
                         if (!x || !y) {
-                            response.error = "Paramètres x et y manquants.";
+                            response.error = "Paramètres 'x' et/ou 'y' manquants.";
                         } else if (x == 0 || y == 0) {
                             response.error = "Impossible: Modulo par zéro.";
                         } else if (Object.keys(params).length > 3) {
-                            response.error = "Trop de paramètre dans la requête.";
+                            response.error = "Trop de paramètres dans la requête.";
                         } else {
-                            if (isNaN(parseFloat(x) % parseFloat(y))) {
-                                if (isNaN(x)) {
-                                    response.error = "Le paramètre x n'est pas un nombre.";
-                                } else {
-                                    response.error = "Le paramètre y n'est pas un nombre.";
-                                }
-                            } else {
-                                response.value = parseFloat(x) % parseFloat(y);                
-                            }   
+                            const result = parseFloat(x) % parseFloat(y);
+                            response.value = isFinite(result) ? result.toString() : "Infinity";
+                            if (isNaN(result)) {
+                                response.value = "NaN";
+                            }
                         }
                         response.op = '%'
                         this.HttpContext.response.JSON(response);
