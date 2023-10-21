@@ -39,7 +39,7 @@ export default class MathsController extends Controller {
             "return {"op" :"/","x":number,"y":number, "value": x / y}"<br>
             </p>
             <p>
-            ? op = % & x = number & y = number<br>
+            ? oxp = % & x = number & y = number<br>
             "return {"op":"%","x":number, "y'':number, "value": x % y}"<br>
             </p>
             <p>
